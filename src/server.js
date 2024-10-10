@@ -1,8 +1,8 @@
 import express from 'express';
 import { sendResponse } from '../src/lib/genricResponse.js';
-import { User } from './modal/user.js';
 import { connectDB } from './lib/Database.js'
 import routes from './routes/index.js'
+import configurations from './lib/config.js';
 
 const app = express();
 
@@ -32,9 +32,13 @@ const startServer = async () => {
             }
         });
 
+        app.use('/', (req, res) => {
+            sendResponse(res, 404, { message: 'Route Not Found' });
+        });
+
         // Start the server
-        app.listen(4000, () => {
-            console.log("App running on port 4000");
+        app.listen(configurations.port, () => {
+            console.log(`App running on port ${configurations.port}`);
         });
     }
 };
